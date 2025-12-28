@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Randomizer</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+        #result { margin-top: 20px; font-weight: bold; font-size: 24px; color: #d9534f; }
+    </style>
+</head>
+<body>
+    <button onclick="pickRandom()">Generate Random Action</button>
+    <div id="result"></div>
+
+    <script>
+        var list = [
+            "Worship their feet", "Kiss neck two mins", "Strip em. Teeth only.", 
+            "You in charge. They slave.", "You're their slave.", "Give them oral. Five mins.", 
+            "Get oral. Five mins.", "Spank them. Count loud.", "Let them spank you.", 
+            "Ice on them.", "Let them ice you.", "Blindfold 'em. Guess.", 
+            "Blindfold you. Guess.", "Sixty-nine. First moan loses.", 
+            "Tease 'em with mouth.", "Blindfold, gag, strap, fifteen mins."
+        ];
+
+        function pickRandom() {
+            var x = Math.floor(Math.random() * list.length);
+            document.getElementById("result").innerHTML = "You pulled... " + list[x];
+        }
+    </script>
+</body>
+</html>
