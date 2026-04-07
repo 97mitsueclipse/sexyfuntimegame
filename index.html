@@ -82,48 +82,57 @@
 
     .setup-container {
       background: var(--gray);
-      padding: 50px 40px;
+      padding: 40px 50px;
       border-radius: 20px;
       box-shadow: 0 0 40px rgba(255,77,77,0.3);
-      max-width: 460px;
+      max-width: 520px;
       width: 100%;
     }
 
-    h2 {
-      color: var(--red);
+    h2 { color: var(--red); margin-bottom: 30px; }
+
+    .player-setup {
       margin-bottom: 30px;
+      text-align: left;
     }
 
     label {
       display: block;
-      margin: 25px 0 10px;
-      font-size: 1.4em;
-      text-align: left;
+      margin: 15px 0 8px;
+      font-size: 1.3em;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2em;
+      background: #1f1f1f;
+      color: white;
+      border: 2px solid var(--red);
+      border-radius: 10px;
     }
 
     .gender-options {
       display: flex;
       gap: 15px;
-      justify-content: center;
-      margin: 15px 0 30px;
+      margin: 10px 0 25px;
     }
 
     .gender-btn {
-      padding: 14px 35px;
-      font-size: 1.3em;
+      padding: 12px 30px;
+      font-size: 1.2em;
       background: #333;
       color: white;
       border: 2px solid #555;
       border-radius: 50px;
       cursor: pointer;
-      transition: all 0.3s;
       flex: 1;
+      transition: all 0.3s;
     }
 
     .gender-btn.active {
       background: var(--red);
       border-color: var(--red);
-      transform: scale(1.05);
     }
 
     /* Game Screen */
@@ -131,25 +140,27 @@
       background: var(--dark);
     }
 
+    #current-player {
+      font-size: 1.8em;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
     #result {
-      font-size: 1.55em;
+      font-size: 1.5em;
       max-width: 900px;
-      margin: 40px auto;
-      padding: 45px 35px;
+      margin: 30px auto;
+      padding: 40px 35px;
       background: var(--gray);
       border-radius: 20px;
       box-shadow: 0 0 40px rgba(255,77,77,0.3);
-      line-height: 1.7;
-      min-height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      line-height: 1.75;
+      min-height: 320px;
     }
 
     .menu-bar {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       background: rgba(26,26,26,0.95);
       padding: 15px;
@@ -170,9 +181,7 @@
       cursor: pointer;
     }
 
-    .menu-bar button:hover {
-      background: var(--red);
-    }
+    .menu-bar button:hover { background: var(--red); }
   </style>
 </head>
 <body>
@@ -194,44 +203,63 @@
   <!-- Setup Screen -->
   <div id="setup-screen" class="screen">
     <div class="setup-container">
-      <h2>Choose Players</h2>
+      <h2>Enter Player Details</h2>
 
-      <label>Player 1</label>
-      <div class="gender-options">
-        <button class="gender-btn active" onclick="selectGender(1, 'Male', this)">Male</button>
-        <button class="gender-btn" onclick="selectGender(1, 'Female', this)">Female</button>
+      <div class="player-setup">
+        <label>Player 1 Name</label>
+        <input type="text" id="player1-name" value="Alex" maxlength="15">
+
+        <label>Player 1 Gender</label>
+        <div class="gender-options">
+          <button class="gender-btn active" onclick="selectGender(1, 'Male', this)">Male</button>
+          <button class="gender-btn" onclick="selectGender(1, 'Female', this)">Female</button>
+        </div>
       </div>
 
-      <label>Player 2</label>
-      <div class="gender-options">
-        <button class="gender-btn active" onclick="selectGender(2, 'Female', this)">Female</button>
-        <button class="gender-btn" onclick="selectGender(2, 'Male', this)">Male</button>
+      <div class="player-setup">
+        <label>Player 2 Name</label>
+        <input type="text" id="player2-name" value="Jordan" maxlength="15">
+
+        <label>Player 2 Gender</label>
+        <div class="gender-options">
+          <button class="gender-btn active" onclick="selectGender(2, 'Female', this)">Female</button>
+          <button class="gender-btn" onclick="selectGender(2, 'Male', this)">Male</button>
+        </div>
       </div>
 
-      <button class="btn" onclick="startGame()" style="margin-top: 40px; width: 100%;">Start Game</button>
+      <button class="btn" onclick="startGame()" style="margin-top: 30px; width: 100%;">Start Game</button>
     </div>
   </div>
 
   <!-- Game Screen -->
   <div id="game-screen" class="screen">
+    <div id="current-player">It's <span id="player-name-display">Alex</span>'s turn</div>
     <div id="result">Click "Draw Again" to get your next sexy fate...</div>
     <button class="btn" onclick="drawScenario()" style="margin-top: 30px;">🎲 Draw Again</button>
   </div>
 
   <script>
     const scenarios = [
-      // ←←← PASTE YOUR FULL ORIGINAL SCENARIOS ARRAY HERE ←←←
-      // (All the ones from your first message: quick tasks, positions, puppy play, etc.)
+      // PASTE YOUR FULL ORIGINAL SCENARIOS ARRAY HERE
+      // Keep all your original entries exactly as they were
       "Worship the other person's feet.",
       "Kiss their neck for two minutes straight.",
-      // ... add every single scenario you had originally ...
+      "Strip the other person. Slowly. No hands, teeth only.",
+      "You're in charge. They are your slave.",
+      "You're their slave.",
+      "Give five minutes of oral.",
+      "Receive five minutes of oral.",
+      "Spank them ten times. Count out loud.",
+      "Let them spank you ten times. Count out loud.",
+      // ... add the rest of your long list here (puppy play, plugged in, etc.) ...
     ];
 
-    let player1Gender = "Male";
-    let player2Gender = "Female";
+    let player1 = { name: "Alex", gender: "Male" };
+    let player2 = { name: "Jordan", gender: "Female" };
+    let currentPlayer = 1; // 1 or 2
 
     function showScreen(screenId) {
-      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById(screenId).classList.add('active');
     }
 
@@ -243,33 +271,78 @@
       showScreen('setup-screen');
     }
 
-    function selectGender(player, gender, element) {
-      // Remove active from sibling buttons
-      const siblings = element.parentElement.querySelectorAll('.gender-btn');
-      siblings.forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
-
-      if (player === 1) player1Gender = gender;
-      else player2Gender = gender;
+    function selectGender(playerNum, gender, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     }
 
     function startGame() {
+      // Get names
+      const p1Name = document.getElementById('player1-name').value.trim() || "Player 1";
+      const p2Name = document.getElementById('player2-name').value.trim() || "Player 2";
+
+      // Get genders
+      const p1GenderBtn = document.querySelector('#setup-screen .gender-options:first-of-type .gender-btn.active');
+      const p2GenderBtn = document.querySelector('#setup-screen .gender-options:last-of-type .gender-btn.active');
+
+      player1 = { 
+        name: p1Name, 
+        gender: p1GenderBtn ? p1GenderBtn.textContent : "Male" 
+      };
+      player2 = { 
+        name: p2Name, 
+        gender: p2GenderBtn ? p2GenderBtn.textContent : "Female" 
+      };
+
+      currentPlayer = 1;
       showScreen('game-screen');
-      drawScenario(); // Draw first scenario automatically
+      drawScenario();
+    }
+
+    function getCurrentPlayer() {
+      return currentPlayer === 1 ? player1 : player2;
+    }
+
+    function getOtherPlayer() {
+      return currentPlayer === 1 ? player2 : player1;
+    }
+
+    function replaceNames(text) {
+      let result = text;
+      result = result.replace(/the other person/gi, getOtherPlayer().name);
+      result = result.replace(/them/gi, getOtherPlayer().name);
+      result = result.replace(/their/gi, getOtherPlayer().name + "'s");
+      result = result.replace(/they/gi, getOtherPlayer().name);
+      result = result.replace(/you/gi, getCurrentPlayer().name);   // "You" becomes current player's name
+      return result;
     }
 
     function drawScenario() {
       if (scenarios.length === 0) {
-        document.getElementById('result').innerHTML = "No scenarios available!";
+        document.getElementById('result').innerHTML = "No scenarios loaded!";
         return;
       }
 
       const randomIndex = Math.floor(Math.random() * scenarios.length);
-      document.getElementById('result').innerHTML = 
-        `<strong>You drew:</strong><br><br>` + scenarios[randomIndex];
+      let scenarioText = scenarios[randomIndex];
+
+      // Replace generic terms with actual player names
+      scenarioText = replaceNames(scenarioText);
+
+      const current = getCurrentPlayer();
+
+      document.getElementById('player-name-display').textContent = current.name;
+      document.getElementById('result').innerHTML = `
+        <strong>${current.name}'s turn:</strong><br><br>
+        ${scenarioText}
+      `;
+
+      // Switch to the other player for next draw
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
     }
 
-    // Spacebar shortcut to draw again
+    // Spacebar to draw again
     document.addEventListener('keydown', function(e) {
       if (e.key === " " && document.getElementById('game-screen').classList.contains('active')) {
         e.preventDefault();
