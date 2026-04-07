@@ -82,51 +82,48 @@
 
     .setup-container {
       background: var(--gray);
-      padding: 40px 50px;
+      padding: 50px 40px;
       border-radius: 20px;
       box-shadow: 0 0 40px rgba(255,77,77,0.3);
-      max-width: 500px;
+      max-width: 460px;
       width: 100%;
+    }
+
+    h2 {
+      color: var(--red);
+      margin-bottom: 30px;
     }
 
     label {
       display: block;
-      margin: 20px 0 8px;
-      font-size: 1.3em;
+      margin: 25px 0 10px;
+      font-size: 1.4em;
       text-align: left;
-    }
-
-    select, input {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.2em;
-      background: #1f1f1f;
-      color: white;
-      border: 2px solid var(--red);
-      border-radius: 10px;
     }
 
     .gender-options {
       display: flex;
       gap: 15px;
       justify-content: center;
-      margin: 15px 0;
+      margin: 15px 0 30px;
     }
 
     .gender-btn {
-      padding: 12px 25px;
-      font-size: 1.1em;
+      padding: 14px 35px;
+      font-size: 1.3em;
       background: #333;
       color: white;
       border: 2px solid #555;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s;
+      flex: 1;
     }
 
     .gender-btn.active {
       background: var(--red);
       border-color: var(--red);
+      transform: scale(1.05);
     }
 
     /* Game Screen */
@@ -135,203 +132,10 @@
     }
 
     #result {
-      font-size: 1.5em;
+      font-size: 1.55em;
       max-width: 900px;
       margin: 40px auto;
-      padding: 40px 30px;
-      background: var(--gray);
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255,77,77,0.3);
-      line-height: 1.7;
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(26,26,26,0.95);
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      border-bottom: 2px solid var(--red);
-    }
-
-    .menu-bar button {
-      padding: 10px 25px;
-      font-size: 1.1em;
-      background: transparent;
-      color: white;
-      border: 2px solid var(--red);
-      border-radius: 30px;
-      cursor: pointer;
-    }
-
-    .menu-bar button:hover {
-      background: var(--red);
-    }
-
-    h2 { color: var(--red); margin-bottom: 20px; }
-  </style>
-</head>
-<body>
-
-  <!-- Top Menu Bar -->
-  <div class="menu-bar">
-    <button onclick="goToHome()">🏠 Home</button>
-    <h2 style="margin:0; color:#ff4d4d;">Sexy Fun Time Game</h2>
-    <div></div>
-  </div>
-
-  <!-- Home Screen -->
-  <div id="home-screen" class="screen active">
-    <h1>Sexy Fun Time</h1>
-    <p>Spice up your night with wild, naughty, and unforgettable challenges.<br>Ready to play?</p>
-    <button class="btn" onclick="goToSetup()">Begin</button>
-  </div>
-
-  <!-- Setup Screen -->
-  <div id="setup-screen" class="screen">
-    <div class="setup-container">
-      <h2>Game Setup</h2>
-
-      <label>How many scenarios do you want to play?</label>
-      <select id="num-plays" onchange="updatePlays()">
-        <option value="1">1 Play</option>
-        <option value="3" selected>3 Plays</option>
-        <option value="5">5 Plays</option>
-        <option value="10">10 Plays</option>
-        <option value="15">15 Plays</option>
-      </select>
-
-      <label>Player 1 Gender</label>
-      <div class="gender-options">
-        <button class="gender-btn active" data-player="1" data-gender="Male" onclick="selectGender(1, 'Male', this)">Male</button>
-        <button class="gender-btn" data-player="1" data-gender="Female" onclick="selectGender(1, 'Female', this)">Female</button>
-        <button class="gender-btn" data-player="1" data-gender="Non-binary" onclick="selectGender(1, 'Non-binary', this)">Non-binary</button>
-      </div>
-
-      <label>Player 2 Gender</label>
-      <div class="gender-options">
-        <button class="gender-btn active" data-player="2" data-gender="Female" onclick="selectGender(2, 'Female', this)">Female</button>
-        <button class="gender-btn" data-player="2" data-gender="Male" onclick="selectGender(2, 'Male', this)">Male</button>
-        <button class="gender-btn" data-player="2" data-gender="Non-binary" onclick="selectGender(2, 'Non-binary', this)">Non-binary</button>
-      </div>
-
-      <button class="btn" onclick="startGame()" style="margin-top: 40px; width: 100%;">Start Playing</button>
-    </div>
-  </div>
-
-  <!-- Game Screen -->
-  <div id="game-screen" class="screen">
-    <div id="result">Click "Draw Again" to get your next sexy fate...</div>
-    <button class="btn" onclick="drawScenario()" style="margin-top: 30px;">🎲 Draw Again</button>
-  </div>
-
-  <script>
-    const scenarios = [
-      // Paste your full original scenarios array here (same as before)
-      "Worship the other person's feet.",
-      "Kiss their neck for two minutes straight.",
-      // ... add ALL your scenarios from the previous code ...
-    ];
-
-    let currentPlay = 0;
-    let totalPlays = 3;
-
-    function showScreen(screenId) {
-      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-    }
-
-    function goToHome() {
-      showScreen('home-screen');
-    }
-
-    function goToSetup() {
-      showScreen('setup-screen');
-    }
-
-    function selectGender(player, gender, element) {
-      // Remove active from all buttons for this player
-      document.querySelectorAll(`.gender-btn[data-player="${player}"]`).forEach(btn => {
-        btn.classList.remove('active');
-      });
-      element.classList.add('active');
-    }
-
-    function updatePlays() {
-      totalPlays = parseInt(document.getElementById('num-plays').value);
-    }
-
-    function startGame() {
-      currentPlay = 0;
-      totalPlays = parseInt(document.getElementById('num-plays').value);
-      showScreen('game-screen');
-      drawScenario(); // Draw the first one automatically
-    }
-
-    function drawScenario() {
-      if (scenarios.length === 0) {
-        document.getElementById('result').innerHTML = "No scenarios loaded!";
-        return;
-      }
-
-      const randomIndex = Math.floor(Math.random() * scenarios.length);
-      let html = `<strong>Play ${++currentPlay} of ${totalPlays}:</strong><br><br>`;
-      html += scenarios[randomIndex];
-
-      document.getElementById('result').innerHTML = html;
-
-      // Optional: Auto-stop after reaching totalPlays
-      if (currentPlay >= totalPlays) {
-        setTimeout(() => {
-          alert(`You've completed all ${totalPlays} plays! 🎉 Go back to Home to start a new session.`);
-        }, 800);
-      }
-    }
-
-    // Keyboard shortcut: Spacebar to draw again
-    document.addEventListener('keydown', function(e) {
-      if (e.key === " " && document.getElementById('game-screen').classList.contains('active')) {
-        e.preventDefault();
-        drawScenario();
-      }
-    });
-  </script>
-</body>
-</html>      font-size: 1.6em;
-      background: var(--red);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(255, 77, 77, 0.4);
-    }
-
-    .btn:hover {
-      background: #ff3333;
-      transform: scale(1.08);
-      box-shadow: 0 15px 40px rgba(255, 77, 77, 0.6);
-    }
-
-    /* Game Screen */
-    #game-screen {
-      background: var(--dark);
-    }
-
-    #result {
-      font-size: 1.5em;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 40px 30px;
+      padding: 45px 35px;
       background: var(--gray);
       border-radius: 20px;
       box-shadow: 0 0 40px rgba(255,77,77,0.3);
@@ -369,11 +173,6 @@
     .menu-bar button:hover {
       background: var(--red);
     }
-
-    h2 {
-      color: var(--red);
-      margin-bottom: 20px;
-    }
   </style>
 </head>
 <body>
@@ -382,14 +181,35 @@
   <div class="menu-bar">
     <button onclick="goToHome()">🏠 Home</button>
     <h2 style="margin:0; color:#ff4d4d;">Sexy Fun Time Game</h2>
-    <div></div> <!-- Spacer -->
+    <div></div>
   </div>
 
   <!-- Home Screen -->
   <div id="home-screen" class="screen active">
     <h1>Sexy Fun Time</h1>
     <p>Spice up your night with wild, naughty, and unforgettable challenges.<br>Ready to play?</p>
-    <button class="btn" onclick="startGame()">Start Drawing Scenarios</button>
+    <button class="btn" onclick="goToSetup()">Begin</button>
+  </div>
+
+  <!-- Setup Screen -->
+  <div id="setup-screen" class="screen">
+    <div class="setup-container">
+      <h2>Choose Players</h2>
+
+      <label>Player 1</label>
+      <div class="gender-options">
+        <button class="gender-btn active" onclick="selectGender(1, 'Male', this)">Male</button>
+        <button class="gender-btn" onclick="selectGender(1, 'Female', this)">Female</button>
+      </div>
+
+      <label>Player 2</label>
+      <div class="gender-options">
+        <button class="gender-btn active" onclick="selectGender(2, 'Female', this)">Female</button>
+        <button class="gender-btn" onclick="selectGender(2, 'Male', this)">Male</button>
+      </div>
+
+      <button class="btn" onclick="startGame()" style="margin-top: 40px; width: 100%;">Start Game</button>
+    </div>
   </div>
 
   <!-- Game Screen -->
@@ -400,119 +220,62 @@
 
   <script>
     const scenarios = [
-      // (Your entire original array goes here – unchanged)
+      // ←←← PASTE YOUR FULL ORIGINAL SCENARIOS ARRAY HERE ←←←
+      // (All the ones from your first message: quick tasks, positions, puppy play, etc.)
       "Worship the other person's feet.",
       "Kiss their neck for two minutes straight.",
-      "Strip the other person. Slowly. No hands, teeth only.",
-      "You're in charge. They are your slave.",
-      "You're their slave.",
-      "Give five minutes of oral.",
-      "Receive five minutes of oral.",
-      "Spank them ten times. Count out loud.",
-      "Let them spank you ten times. Count out loud.",
-      "Use ice all over their nipples.",
-      "Let them use ice on you. Don't move.",
-      "Dirty talk loud and filthy in their ear.",
-      "Blindfold on you. Guess what touches you.",
-      "Put blindfold on them. Make them guess.",
-      "Sixty-nine. First moan loses.",
-      "Tease 'em with your mouth—nowhere near where they want.",
-      "Blindfold, headphones, gag—strapped to the bed for fifteen minutes.",
-      "Missionary. Slow and deep. Her legs on your shoulders.",
-      "Cowgirl. She rides you hard. Hands on your chest.",
-      "Reverse cowgirl. Watch her ass bounce.",
-      "Doggy style. Pull hair. Spank.",
-      "Spooning. From behind. Tease her clit while inside.",
-      "Lap dance position. She grinds on you—no penetration yet.",
-      "Standing doggy. Bent over the wall. Pound deep.",
-      "Chair sex. You sit. She straddles and rides.",
-      "Wall sex. Lift her up. Legs wrapped around you.",
-      "Sideways scissor. Legs tangled. Grind together.",
-      "Her squatting over you while you lie flat. She bounces.",
-      "Prone bone. She's flat on stomach. You press down.",
-      "Standing bent forward. Feet on ground. Take from behind.",
-      "Lift-up sex. Arms under her thighs. Pin against door.",
-      "Mirror fuck. From behind. Watch every expression.",
-      "Kneeling. Her lying back. Legs on your shoulders. Fold her.",
-      "Countertop. She sits on edge. You stand between legs.",
-      "Standing 69. She's upside down. Hold her tight.",
-      "Lotus. You sit cross-legged. She rocks on your lap.",
-      "Bridge. You under. She lowers onto you—hips raised.",
-      "Strip down to just socks.",
-      "Put on your partner's underwear.",
-      "Let them put lipstick on you.",
-      "Lick their left foot clean.",
-      "Do ten naked push-ups.",
-      "Kiss their armpit—good and long.",
-      "Stand in the closet naked for three minutes.",
-      "Suck your thumb for thirty seconds.",
-      "Put on their shirt, nothing else.",
-      "Let them spank you five times.",
-      "Draw a heart on your chest with marker.",
-      "Hold a plank naked—hold it till they count ten.",
-      "Wear only a towel—tie it loose.",
-      "Let them blindfold you for one minute.",
-      "Kiss the back of their knee.",
-      "Do five jumping jacks—fully bare.",
-      "Put on their socks... backwards.",
-      "Let them blow raspberries on your stomach.",
-      "Sniff their armpit—inhale loud.",
-      "Lie flat, let them trace fingers down your spine.",
-      "Put on lipstick, kiss the mirror.",
-      "Hold their feet, massage hard.",
-      "Stand on one foot—until they say stop.",
-      "Let them write 'mine' on your thigh.",
-      "Do twenty air humps—loud.",
-      "Wear a bra, no shirt.",
-      "Let them put mascara on you.",
-      "Kneel and beg—loud—for water.",
-      "Let them ice your nipples.",
-      "Do a slow strip—song of your choice.",
-      "Wear only one sock on your hand and talk like a puppet—nothing else on.",
-      "Let them pinch you anywhere.",
-      "Do a headstand—naked.",
-      "Kiss every finger on their hand.",
-      "Wear underwear on your head.",
-      "Let them tickle you for two full minutes.",
-      "Put on their hat, walk the room.",
-      "Do the worm—on the floor.",
-      "Let them whisper filthy nonsense in your ear.",
-      "Get on all fours and suck on each of their toes—one by one.",
-      "Lick both their armpits. Thoroughly.",
-      "Kneel and sniff their bare feet—like you're savoring it.",
-      "Bite their inner thigh. Twice.",
-      "Finger them for exactly one minute—no cumming.",
-      "Suck their nipples while stroking their genitals.",
-      "Grind your knee between their legs.",
-      "Spit on their chest, then lick it off.",
-      "Spread them open—lick one slow stripe from bottom to top.",
-      "Let them sit on your face for thirty seconds.",
-      "Stroke yourself while staring at their genitals.",
-      "Put your tongue in their ass—just the tip.",
-      "Hump their thigh like it's your only job.",
-      "Let them ride your tongue—hands pinned.",
-      "Hold their mouth open and spit directly in it. Let it drip.",
-      "Spit on their face—slow and deliberate.",
-      "Lick from their collarbone, down the sternum, stop at the waistband.",
-      "Let them choke you—light hand on throat. Thirty seconds.",
-      "Let them slap your face—three times. Medium.",
-      "Ten spanks over their lap. Bare. Count backwards.",
-      "Let them twist both your nipples till it stings.",
-      "Get hogtied—wrists to ankles with rope or tie. Sixty seconds.",
-      "Let them handcuff you—hands behind back. One minute.",
-      "Let them gag you with their dirty socks—stuffed in and taped shut.",
-      "Wear your partner's full outfit—shirts, pants, socks, shoes. Walk exactly like they walk.",
-      "Let them do your makeup—full face. Hold still.",
-      "Put on their underwear—whatever style. Parade around the room.",
-      "Switch shirts. Wear theirs. They wear yours.",
-      "Let them eyeliner your eyes. No blinking.",
-      "Wear their socks. Walk around barefoot in them.",
-      "Let them lipstick your lips—then kiss ten places on their body.",
-      "Wear your partner's belt—as a choker. Tight.",
-      "Wear a skirt and heels for the next three tasks—no tripping.",
-      "Ketchup on their feet, lick them spotless.",
-      "Lick candy off their genitals until it's gone.",
-      "Wear opposite-gender underwear for the rest of the night unless told otherwise.",
-      "Take a lubed finger in the ass.",
-      "Partner gags you—using any part of their body.",
-      // ... (add the rest of your long list here – puppy play, plugged in
+      // ... add every single scenario you had originally ...
+    ];
+
+    let player1Gender = "Male";
+    let player2Gender = "Female";
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function goToHome() {
+      showScreen('home-screen');
+    }
+
+    function goToSetup() {
+      showScreen('setup-screen');
+    }
+
+    function selectGender(player, gender, element) {
+      // Remove active from sibling buttons
+      const siblings = element.parentElement.querySelectorAll('.gender-btn');
+      siblings.forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+
+      if (player === 1) player1Gender = gender;
+      else player2Gender = gender;
+    }
+
+    function startGame() {
+      showScreen('game-screen');
+      drawScenario(); // Draw first scenario automatically
+    }
+
+    function drawScenario() {
+      if (scenarios.length === 0) {
+        document.getElementById('result').innerHTML = "No scenarios available!";
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * scenarios.length);
+      document.getElementById('result').innerHTML = 
+        `<strong>You drew:</strong><br><br>` + scenarios[randomIndex];
+    }
+
+    // Spacebar shortcut to draw again
+    document.addEventListener('keydown', function(e) {
+      if (e.key === " " && document.getElementById('game-screen').classList.contains('active')) {
+        e.preventDefault();
+        drawScenario();
+      }
+    });
+  </script>
+</body>
+</html>
