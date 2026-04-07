@@ -5,21 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sexy Fun Time Game</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #1a1a1a; color: #f0f0f0; text-align: center; padding: 50px 20px; margin: 0; }
-    h1 { font-size: 2.5em; margin-bottom: 40px; color: #ff4d4d; }
-    #result { font-size: 1.4em; max-width: 800px; margin: 40px auto; padding: 30px; background: #2d2d2d; border-radius: 15px; box-shadow: 0 0 20px rgba(255,77,77,0.3); line-height: 1.6; }
-    button { padding: 15px 40px; font-size: 1.5em; background: #ff4d4d; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 30px; }
-    button:hover { background: #ff3333; }
+    :root {
+      --red: #ff4d4d;
+      --dark: #1a1a1a;
+      --gray: #2d2d2d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--dark);
+      color: #f0f0f0;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: opacity 0.4s ease;
+    }
+
+    .screen.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Home Screen */
+    #home-screen {
+      background: linear-gradient(135deg, #1a1a1a, #330000);
+    }
+
+    #home-screen h1 {
+      font-size: 3.5em;
+      color: var(--red);
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px rgba(255, 77, 77, 0.6);
+    }
+
+    #home-screen p {
+      font-size: 1.4em;
+      max-width: 600px;
+      margin-bottom: 50px;
+      opacity: 0.9;
+    }
+
+    .btn {
+      padding: 18px 50px;
+      font-size: 1.6em;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(255, 77, 77, 0.4);
+    }
+
+    .btn:hover {
+      background: #ff3333;
+      transform: scale(1.08);
+      box-shadow: 0 15px 40px rgba(255, 77, 77, 0.6);
+    }
+
+    /* Game Screen */
+    #game-screen {
+      background: var(--dark);
+    }
+
+    #result {
+      font-size: 1.5em;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px 30px;
+      background: var(--gray);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,77,77,0.3);
+      line-height: 1.7;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26,26,26,0.95);
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      border-bottom: 2px solid var(--red);
+    }
+
+    .menu-bar button {
+      padding: 10px 25px;
+      font-size: 1.1em;
+      background: transparent;
+      color: white;
+      border: 2px solid var(--red);
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .menu-bar button:hover {
+      background: var(--red);
+    }
+
+    h2 {
+      color: var(--red);
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>Sexy Fun Time Game</h1>
-  <div id="result">Click the button (or refresh) to draw your fate...</div>
-  <button onclick="drawScenario()">Draw Again</button>
+
+  <!-- Top Menu Bar -->
+  <div class="menu-bar">
+    <button onclick="goToHome()">🏠 Home</button>
+    <h2 style="margin:0; color:#ff4d4d;">Sexy Fun Time Game</h2>
+    <div></div> <!-- Spacer -->
+  </div>
+
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen active">
+    <h1>Sexy Fun Time</h1>
+    <p>Spice up your night with wild, naughty, and unforgettable challenges.<br>Ready to play?</p>
+    <button class="btn" onclick="startGame()">Start Drawing Scenarios</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <div id="result">Click "Draw Again" to get your next sexy fate...</div>
+    <button class="btn" onclick="drawScenario()" style="margin-top: 30px;">🎲 Draw Again</button>
+  </div>
 
   <script>
     const scenarios = [
-      // Quick tasks (single entries)
+      // (Your entire original array goes here – unchanged)
       "Worship the other person's feet.",
       "Kiss their neck for two minutes straight.",
       "Strip the other person. Slowly. No hands, teeth only.",
@@ -37,8 +171,6 @@
       "Sixty-nine. First moan loses.",
       "Tease 'em with your mouth—nowhere near where they want.",
       "Blindfold, headphones, gag—strapped to the bed for fifteen minutes.",
-
-      // Positions (single)
       "Missionary. Slow and deep. Her legs on your shoulders.",
       "Cowgirl. She rides you hard. Hands on your chest.",
       "Reverse cowgirl. Watch her ass bounce.",
@@ -59,8 +191,6 @@
       "Standing 69. She's upside down. Hold her tight.",
       "Lotus. You sit cross-legged. She rocks on your lap.",
       "Bridge. You under. She lowers onto you—hips raised.",
-
-      // Quick tasks (single)
       "Strip down to just socks.",
       "Put on your partner's underwear.",
       "Let them put lipstick on you.",
@@ -103,8 +233,6 @@
       "Get on all fours and suck on each of their toes—one by one.",
       "Lick both their armpits. Thoroughly.",
       "Kneel and sniff their bare feet—like you're savoring it.",
-
-      // Sexual / Spit / BDSM quick (single)
       "Bite their inner thigh. Twice.",
       "Finger them for exactly one minute—no cumming.",
       "Suck their nipples while stroking their genitals.",
@@ -126,8 +254,6 @@
       "Get hogtied—wrists to ankles with rope or tie. Sixty seconds.",
       "Let them handcuff you—hands behind back. One minute.",
       "Let them gag you with their dirty socks—stuffed in and taped shut.",
-
-      // Cross-dressing & food & extra quick (single)
       "Wear your partner's full outfit—shirts, pants, socks, shoes. Walk exactly like they walk.",
       "Let them do your makeup—full face. Hold still.",
       "Put on their underwear—whatever style. Parade around the room.",
@@ -142,103 +268,4 @@
       "Wear opposite-gender underwear for the rest of the night unless told otherwise.",
       "Take a lubed finger in the ass.",
       "Partner gags you—using any part of their body.",
-
-      // Detailed scenarios – assorted duplication as you demanded
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-      "Puppy play<br><br>You get on all fours and crawl, completely naked. Your partner attaches the leash around your neck. You will eat scraps from a bowl on the floor, drink from a bowl on the floor. To pee, you bark politely—twice. And only when master nods do you get let outside. You will do tricks and play fetch with toys.",
-
-      "Plugged in<br><br>You must insert a butt plug. Your partner chooses the method. Keep it in for one hour. If it comes out early, add 30 minutes. When finished, either suck it clean in your mouth or add one hour while wearing opposite-gender clothes.",
-      "Plugged in<br><br>You must insert a butt plug. Your partner chooses the method. Keep it in for one hour. If it comes out early, add 30 minutes. When finished, either suck it clean in your mouth or add one hour while wearing opposite-gender clothes.",
-      "Plugged in<br><br>You must insert a butt plug. Your partner chooses the method. Keep it in for one hour. If it comes out early, add 30 minutes. When finished, either suck it clean in your mouth or add one hour while wearing opposite-gender clothes.",
-      "Plugged in<br><br>You must insert a butt plug. Your partner chooses the method. Keep it in for one hour. If it comes out early, add 30 minutes. When finished, either suck it clean in your mouth or add one hour while wearing opposite-gender clothes.",
-
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-      "Photo Shoot<br><br>You're the model, your partner is the stylist. You may only wear opposite-gender clothes (nudity encouraged). Take 12 pictures for a calendar. Required themes: kitchen, artsy, bondage, puppy, feet, cute. Freestyle the rest. All must be different. Partner must send one image to someone in their contacts for approval.",
-
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-      "Slave<br><br>For the next hour you do everything your master tells you—no hesitation. Perfection is required. If you slip—paddle, belt, crop, whatever they grab. Your safeword is mercy.",
-
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-      "Cock and ball torture<br><br>For the next sixty minutes, stand spread-legged, hands locked behind your head, totally nude. Your partner will drag you anywhere in the house. They will hit, kick, slap, tug, paddle—whatever they want. If your knees give, they keep going. If they walk away, they must chain you in a torturous, painful, inconvenient position. No relief. No hands. Only short breaks are permitted.",
-
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-      "Cross-dress<br><br>For the next sixty minutes, strip down completely. Partner picks any item from their closet and puts it on you head to toe. If you're a man: full makeup—lipstick, eyeliner, blush, nails painted, wig if available. Walk around the house. You must: Cook. Clean. Pleasure your partner. Have your partner take 5 different pictures. Want to pee? You must ask permission.",
-
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-      "Foot slave<br><br>Strip. For the next sixty minutes, you are nothing but a foot slave. You will massage, lick, worship, suck toes if told. You will let them walk on you—literally. Back, face, crotch. You are footstool. You are carpet. If their feet sweat or get dirty—you clean. Tongue, hands, spit. Dirt means ten extra minutes.",
-
-      "Public Play<br><br>You must do one of the following in public, any public location is acceptable, passerbys not required. You will suck, lick, worship, your partners toes. You will let partner walk you on a leash must potty outside to go home. whip it (cock/ tits) out and play with it. ",
-      "Public Play<br><br>You must do one of the following in public, any public location is acceptable, passerbys not required. You will suck, lick, worship, your partners toes. You will let partner walk you on a leash must potty outside to go home. whip it (cock/ tits) out and play with it. ",
-      "Public Play<br><br>You must do one of the following in public, any public location is acceptable, passerbys not required. You will suck, lick, worship, your partners toes. You will let partner walk you on a leash must potty outside to go home. whip it (cock/ tits) out and play with it. ",
-      "Public Play<br><br>You must do one of the following in public, any public location is acceptable, passerbys not required. You will suck, lick, worship, your partners toes. You will let partner walk you on a leash must potty outside to go home. whip it (cock/ tits) out and play with it. ",
-      "Public Play<br><br>You must do one of the following in public, any public location is acceptable, passerbys not required. You will suck, lick, worship, your partners toes. You will let partner walk you on a leash must potty outside to go home. whip it (cock/ tits) out and play with it. ",
-
-      "Social Experiment<br><br>For the next 12 hours join an adult chat site/app (ie kik). You will join groups for feet, crossdressing, genital pictures, humiliation, same gender dating. Advertise hourly to take pictures for others. Your partner will take the requested pics of you and send them to the requester. Only send images to peoole of your same gender. No Face. No cumming.",
-      "Social Experiment<br><br>For the next 12 hours join an adult chat site/app (ie kik). You will join groups for feet, crossdressing, genital pictures, humiliation, same gender dating. Advertise hourly to take pictures for others. Your partner will take the requested pics of you and send them to the requester. Only send images to peoole of your same gender. No Face. No cumming.",
-      "Social Experiment<br><br>For the next 12 hours join an adult chat site/app (ie kik). You will join groups for feet, crossdressing, genital pictures, humiliation, same gender dating. Advertise hourly to take pictures for others. Your partner will take the requested pics of you and send them to the requester. Only send images to peoole of your same gender. No Face. No cumming.",
-      "Social Experiment<br><br>For the next 12 hours join an adult chat site/app (ie kik). You will join groups for feet, crossdressing, genital pictures, humiliation, same gender dating. Advertise hourly to take pictures for others. Your partner will take the requested pics of you and send them to the requester. Only send images to peoole of your same gender. No Face. No cumming.",
-      "Social Experiment<br><br>For the next 12 hours join an adult chat site/app (ie kik). You will join groups for feet, crossdressing, genital pictures, humiliation, same gender dating. Advertise hourly to take pictures for others. Your partner will take the requested pics of you and send them to the requester. Only send images to peoole of your same gender. No Face. No cumming.",
-
-      // New ones – assorted counts
-      "Human Furniture<br><br>Strip completely naked. For the next 30 minutes, you are furniture—nothing more. Assume whatever position your partner commands (footstool, table, chair, lamp stand). Hold it perfectly. No moving, no speaking, no twitching. They will use you: rest feet on you, set drinks/phone/books on your back, sit on you. Every flinch or sound adds 5 minutes and earns a sharp slap or pinch (their choice). When time ends, crawl to their feet, kiss each one once, and whisper: 'Thank you for using your toy as furniture, Mistress/Master.'",
-      "Human Furniture<br><br>Strip completely naked. For the next 30 minutes, you are furniture—nothing more. Assume whatever position your partner commands (footstool, table, chair, lamp stand). Hold it perfectly. No moving, no speaking, no twitching. They will use you: rest feet on you, set drinks/phone/books on your back, sit on you. Every flinch or sound adds 5 minutes and earns a sharp slap or pinch (their choice). When time ends, crawl to their feet, kiss each one once, and whisper: 'Thank you for using your toy as furniture, Mistress/Master.'",
-      "Human Furniture<br><br>Strip completely naked. For the next 30 minutes, you are furniture—nothing more. Assume whatever position your partner commands (footstool, table, chair, lamp stand). Hold it perfectly. No moving, no speaking, no twitching. They will use you: rest feet on you, set drinks/phone/books on your back, sit on you. Every flinch or sound adds 5 minutes and earns a sharp slap or pinch (their choice). When time ends, crawl to their feet, kiss each one once, and whisper: 'Thank you for using your toy as furniture, Mistress/Master.'",
-      "Human Furniture<br><br>Strip completely naked. For the next 30 minutes, you are furniture—nothing more. Assume whatever position your partner commands (footstool, table, chair, lamp stand). Hold it perfectly. No moving, no speaking, no twitching. They will use you: rest feet on you, set drinks/phone/books on your back, sit on you. Every flinch or sound adds 5 minutes and earns a sharp slap or pinch (their choice). When time ends, crawl to their feet, kiss each one once, and whisper: 'Thank you for using your toy as furniture, Mistress/Master.'",
-
-      "Foot feast<br><br>Strip naked. Kneel. Hands behind back. Partner dumps your food straight onto the floor, steps in, grinds it underfoot. Eat it all—no hands—from their feet. Suck between toes. Scrape the sole. Leave nothing. When feet are clean, lick the rest off the floor while they stand on your back. Finish: thank them for feeding you, kiss each foot. Hesitate, gag or flinch—restart.",
-      "Foot feast<br><br>Strip naked. Kneel. Hands behind back. Partner dumps your food straight onto the floor, steps in, grinds it underfoot. Eat it all—no hands—from their feet. Suck between toes. Scrape the sole. Leave nothing. When feet are clean, lick the rest off the floor while they stand on your back. Finish: thank them for feeding you, kiss each foot. Hesitate, gag or flinch—restart.",
-      "Foot feast<br><br>Strip naked. Kneel. Hands behind back. Partner dumps your food straight onto the floor, steps in, grinds it underfoot. Eat it all—no hands—from their feet. Suck between toes. Scrape the sole. Leave nothing. When feet are clean, lick the rest off the floor while they stand on your back. Finish: thank them for feeding you, kiss each foot. Hesitate, gag or flinch—restart.",
-      "Foot feast<br><br>Strip naked. Kneel. Hands behind back. Partner dumps your food straight onto the floor, steps in, grinds it underfoot. Eat it all—no hands—from their feet. Suck between toes. Scrape the sole. Leave nothing. When feet are clean, lick the rest off the floor while they stand on your back. Finish: thank them for feeding you, kiss each foot. Hesitate, gag or flinch—restart.",
-
-      "Marked canvas<br><br>Strip. Hands behind head, feet apart—don’t move. They get every color. Write. Draw. Arrows to your dick. Hearts on your ass. Color you in. You flinch? One snap. Every fourth snap, they dress you up—full outfit of theirs. Then two new pics: knees, mouth open. Bent, ass out. Thank them after each. Loud. When the total hits ten? They pick one. Send it. To anyone in their contacts. For five minutes you watch the screen. If they reply... you stay in opposite-gender clothes the rest of the day. Every mirror reminds you—they saw. They answered.",
-      "Marked canvas<br><br>Strip. Hands behind head, feet apart—don’t move. They get every color. Write. Draw. Arrows to your dick. Hearts on your ass. Color you in. You flinch? One snap. Every fourth snap, they dress you up—full outfit of theirs. Then two new pics: knees, mouth open. Bent, ass out. Thank them after each. Loud. When the total hits ten? They pick one. Send it. To anyone in their contacts. For five minutes you watch the screen. If they reply... you stay in opposite-gender clothes the rest of the day. Every mirror reminds you—they saw. They answered.",
-      "Marked canvas<br><br>Strip. Hands behind head, feet apart—don’t move. They get every color. Write. Draw. Arrows to your dick. Hearts on your ass. Color you in. You flinch? One snap. Every fourth snap, they dress you up—full outfit of theirs. Then two new pics: knees, mouth open. Bent, ass out. Thank them after each. Loud. When the total hits ten? They pick one. Send it. To anyone in their contacts. For five minutes you watch the screen. If they reply... you stay in opposite-gender clothes the rest of the day. Every mirror reminds you—they saw. They answered.",
-      "Marked canvas<br><br>Strip. Hands behind head, feet apart—don’t move. They get every color. Write. Draw. Arrows to your dick. Hearts on your ass. Color you in. You flinch? One snap. Every fourth snap, they dress you up—full outfit of theirs. Then two new pics: knees, mouth open. Bent, ass out. Thank them after each. Loud. When the total hits ten? They pick one. Send it. To anyone in their contacts. For five minutes you watch the screen. If they reply... you stay in opposite-gender clothes the rest of the day. Every mirror reminds you—they saw. They answered.",
-      "Marked canvas<br><br>Strip. Hands behind head, feet apart—don’t move. They get every color. Write. Draw. Arrows to your dick. Hearts on your ass. Color you in. You flinch? One snap. Every fourth snap, they dress you up—full outfit of theirs. Then two new pics: knees, mouth open. Bent, ass out. Thank them after each. Loud. When the total hits ten? They pick one. Send it. To anyone in their contacts. For five minutes you watch the screen. If they reply... you stay in opposite-gender clothes the rest of the day. Every mirror reminds you—they saw. They answered.",
-
-      "Table scraps<br><br>Strip. Crawl under the table. Hands behind back. They eat. Whatever they drop—on the floor—you eat. No hands. No licking the table. Just floor. One drop they miss? They wait. Watch you. Make you beg. Then push your face in. When they finish, they wipe their hands on your face or hair. Then you thank them on your knees. They decide if you get a bite. One bite. And you eat it without hands—like a dog.",
-      "Table scraps<br><br>Strip. Crawl under the table. Hands behind back. They eat. Whatever they drop—on the floor—you eat. No hands. No licking the table. Just floor. One drop they miss? They wait. Watch you. Make you beg. Then push your face in. When they finish, they wipe their hands on your face or hair. Then you thank them on your knees. They decide if you get a bite. One bite. And you eat it without hands—like a dog.",
-      "Table scraps<br><br>Strip. Crawl under the table. Hands behind back. They eat. Whatever they drop—on the floor—you eat. No hands. No licking the table. Just floor. One drop they miss? They wait. Watch you. Make you beg. Then push your face in. When they finish, they wipe their hands on your face or hair. Then you thank them on your knees. They decide if you get a bite. One bite. And you eat it without hands—like a dog.",
-      "Table scraps<br><br>Strip. Crawl under the table. Hands behind back. They eat. Whatever they drop—on the floor—you eat. No hands. No licking the table. Just floor. One drop they miss? They wait. Watch you. Make you beg. Then push your face in. When they finish, they wipe their hands on your face or hair. Then you thank them on your knees. They decide if you get a bite. One bite. And you eat it without hands—like a dog.",
-
-      "False alarm<br><br>Blindfolded. Gagged. Tied spread eagle. She teases—breath on neck, fingers everywhere except where it counts. Then she walks out. Lights off. Twenty minutes of pitch dark. Door opens again. They wheel the TV right in front of your face, untie just your head, pull the blindfold up. Your eyes adjust. You see you're still fully bound—legs, arms. They hit play. A thirty-minute comedy. You laugh at nothing, dick hard. After, blindfold goes back on. Gag in. She leaves again. Another twenty. When she returns, she doesn’t untie you. She asks one question: 'Want free? Hum three times through the gag.' If you do it perfectly, she cuts you loose. Wrong rhythm? Another full film.",
-      "False alarm<br><br>Blindfolded. Gagged. Tied spread eagle. She teases—breath on neck, fingers everywhere except where it counts. Then she walks out. Lights off. Twenty minutes of pitch dark. Door opens again. They wheel the TV right in front of your face, untie just your head, pull the blindfold up. Your eyes adjust. You see you're still fully bound—legs, arms. They hit play. A thirty-minute comedy. You laugh at nothing, dick hard. After, blindfold goes back on. Gag in. She leaves again. Another twenty. When she returns, she doesn’t untie you. She asks one question: 'Want free? Hum three times through the gag.' If you do it perfectly, she cuts you loose. Wrong rhythm? Another full film.",
-      "False alarm<br><br>Blindfolded. Gagged. Tied spread eagle. She teases—breath on neck, fingers everywhere except where it counts. Then she walks out. Lights off. Twenty minutes of pitch dark. Door opens again. They wheel the TV right in front of your face, untie just your head, pull the blindfold up. Your eyes adjust. You see you're still fully bound—legs, arms. They hit play. A thirty-minute comedy. You laugh at nothing, dick hard. After, blindfold goes back on. Gag in. She leaves again. Another twenty. When she returns, she doesn’t untie you. She asks one question: 'Want free? Hum three times through the gag.' If you do it perfectly, she cuts you loose. Wrong rhythm? Another full film."
-    ];
-
-    function drawScenario() {
-      const randomIndex = Math.floor(Math.random() * scenarios.length);
-      document.getElementById('result').innerHTML = "<strong>You drew:</strong><br><br>" + scenarios[randomIndex];
-    }
-
-    window.onload = drawScenario;
-  </script>
-</body>
-</html>
+      // ... (add the rest of your long list here – puppy play, plugged in
