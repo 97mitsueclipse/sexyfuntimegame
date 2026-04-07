@@ -44,22 +44,269 @@
     }
 
     #home-screen h1 {
-      font-size: 3.5em;
+      font-size: 3.8em;
       color: var(--red);
       margin-bottom: 20px;
       text-shadow: 0 0 30px rgba(255, 77, 77, 0.6);
     }
 
     #home-screen p {
-      font-size: 1.4em;
+      font-size: 1.5em;
       max-width: 600px;
-      margin-bottom: 50px;
+      margin-bottom: 60px;
       opacity: 0.9;
     }
 
     .btn {
-      padding: 18px 50px;
-      font-size: 1.6em;
+      padding: 18px 60px;
+      font-size: 1.8em;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(255, 77, 77, 0.4);
+    }
+
+    .btn:hover {
+      background: #ff3333;
+      transform: scale(1.08);
+      box-shadow: 0 15px 40px rgba(255, 77, 77, 0.6);
+    }
+
+    /* Setup Screen */
+    #setup-screen {
+      background: var(--dark);
+    }
+
+    .setup-container {
+      background: var(--gray);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,77,77,0.3);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 8px;
+      font-size: 1.3em;
+      text-align: left;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2em;
+      background: #1f1f1f;
+      color: white;
+      border: 2px solid var(--red);
+      border-radius: 10px;
+    }
+
+    .gender-options {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    .gender-btn {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background: #333;
+      color: white;
+      border: 2px solid #555;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .gender-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    /* Game Screen */
+    #game-screen {
+      background: var(--dark);
+    }
+
+    #result {
+      font-size: 1.5em;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px 30px;
+      background: var(--gray);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,77,77,0.3);
+      line-height: 1.7;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(26,26,26,0.95);
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      border-bottom: 2px solid var(--red);
+    }
+
+    .menu-bar button {
+      padding: 10px 25px;
+      font-size: 1.1em;
+      background: transparent;
+      color: white;
+      border: 2px solid var(--red);
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .menu-bar button:hover {
+      background: var(--red);
+    }
+
+    h2 { color: var(--red); margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Menu Bar -->
+  <div class="menu-bar">
+    <button onclick="goToHome()">🏠 Home</button>
+    <h2 style="margin:0; color:#ff4d4d;">Sexy Fun Time Game</h2>
+    <div></div>
+  </div>
+
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen active">
+    <h1>Sexy Fun Time</h1>
+    <p>Spice up your night with wild, naughty, and unforgettable challenges.<br>Ready to play?</p>
+    <button class="btn" onclick="goToSetup()">Begin</button>
+  </div>
+
+  <!-- Setup Screen -->
+  <div id="setup-screen" class="screen">
+    <div class="setup-container">
+      <h2>Game Setup</h2>
+
+      <label>How many scenarios do you want to play?</label>
+      <select id="num-plays" onchange="updatePlays()">
+        <option value="1">1 Play</option>
+        <option value="3" selected>3 Plays</option>
+        <option value="5">5 Plays</option>
+        <option value="10">10 Plays</option>
+        <option value="15">15 Plays</option>
+      </select>
+
+      <label>Player 1 Gender</label>
+      <div class="gender-options">
+        <button class="gender-btn active" data-player="1" data-gender="Male" onclick="selectGender(1, 'Male', this)">Male</button>
+        <button class="gender-btn" data-player="1" data-gender="Female" onclick="selectGender(1, 'Female', this)">Female</button>
+        <button class="gender-btn" data-player="1" data-gender="Non-binary" onclick="selectGender(1, 'Non-binary', this)">Non-binary</button>
+      </div>
+
+      <label>Player 2 Gender</label>
+      <div class="gender-options">
+        <button class="gender-btn active" data-player="2" data-gender="Female" onclick="selectGender(2, 'Female', this)">Female</button>
+        <button class="gender-btn" data-player="2" data-gender="Male" onclick="selectGender(2, 'Male', this)">Male</button>
+        <button class="gender-btn" data-player="2" data-gender="Non-binary" onclick="selectGender(2, 'Non-binary', this)">Non-binary</button>
+      </div>
+
+      <button class="btn" onclick="startGame()" style="margin-top: 40px; width: 100%;">Start Playing</button>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <div id="result">Click "Draw Again" to get your next sexy fate...</div>
+    <button class="btn" onclick="drawScenario()" style="margin-top: 30px;">🎲 Draw Again</button>
+  </div>
+
+  <script>
+    const scenarios = [
+      // Paste your full original scenarios array here (same as before)
+      "Worship the other person's feet.",
+      "Kiss their neck for two minutes straight.",
+      // ... add ALL your scenarios from the previous code ...
+    ];
+
+    let currentPlay = 0;
+    let totalPlays = 3;
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function goToHome() {
+      showScreen('home-screen');
+    }
+
+    function goToSetup() {
+      showScreen('setup-screen');
+    }
+
+    function selectGender(player, gender, element) {
+      // Remove active from all buttons for this player
+      document.querySelectorAll(`.gender-btn[data-player="${player}"]`).forEach(btn => {
+        btn.classList.remove('active');
+      });
+      element.classList.add('active');
+    }
+
+    function updatePlays() {
+      totalPlays = parseInt(document.getElementById('num-plays').value);
+    }
+
+    function startGame() {
+      currentPlay = 0;
+      totalPlays = parseInt(document.getElementById('num-plays').value);
+      showScreen('game-screen');
+      drawScenario(); // Draw the first one automatically
+    }
+
+    function drawScenario() {
+      if (scenarios.length === 0) {
+        document.getElementById('result').innerHTML = "No scenarios loaded!";
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * scenarios.length);
+      let html = `<strong>Play ${++currentPlay} of ${totalPlays}:</strong><br><br>`;
+      html += scenarios[randomIndex];
+
+      document.getElementById('result').innerHTML = html;
+
+      // Optional: Auto-stop after reaching totalPlays
+      if (currentPlay >= totalPlays) {
+        setTimeout(() => {
+          alert(`You've completed all ${totalPlays} plays! 🎉 Go back to Home to start a new session.`);
+        }, 800);
+      }
+    }
+
+    // Keyboard shortcut: Spacebar to draw again
+    document.addEventListener('keydown', function(e) {
+      if (e.key === " " && document.getElementById('game-screen').classList.contains('active')) {
+        e.preventDefault();
+        drawScenario();
+      }
+    });
+  </script>
+</body>
+</html>      font-size: 1.6em;
       background: var(--red);
       color: white;
       border: none;
